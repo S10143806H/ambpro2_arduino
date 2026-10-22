@@ -37,21 +37,9 @@ jobs:
           persist-credentials: true
 
       # -------------------------------------------------
-      # Step 1: Checkout private python script
+      # Step 1: Detect changes and zip changed folders
       # -------------------------------------------------
-      - name: Checkout private python script
-        uses: actions/checkout@v4
-        with:
-          repository: M-ichae-l/python_script_private
-          token: ${{ secrets.GH_PAT }}
-          path: private_scripts
-          sparse-checkout: |
-            ameba_arduino_zip_lib_update.py
-
-      # -------------------------------------------------
-      # Step 2: Detect changes, run python and zip changed folders
-      # -------------------------------------------------
-      - name: Detect changes, run python and zip changed folders
+      - name: Detect changes and zip changed folders
         run: |
           set -e
           SRC_DIR="Arduino_zip_libraries/src"
@@ -88,13 +76,10 @@ jobs:
 
           echo "✅ Changed folders: ${CHANGED_FOLDERS[*]}"
 
-          # Always run python, pass changed folders as arguments (can be empty)
-          python private_scripts/ameba_arduino_zip_lib_update.py "${CHANGED_FOLDERS[@]}"
-
           # Install zip
           sudo apt-get update && sudo apt-get install -y zip
 
-          # Zip only the folders detected BEFORE python ran
+          # Zip the changed folders
           if [ ${#CHANGED_FOLDERS[@]} -eq 0 ]; then
             echo "ℹ️ No src/ folder changes detected, skipping zip"
           else
@@ -115,14 +100,7 @@ jobs:
           fi
 
       # -------------------------------------------------
-      # Step 3: Cleanup private scripts
-      # -------------------------------------------------
-      - name: Cleanup private scripts
-        if: always()
-        run: rm -rf private_scripts
-
-      # -------------------------------------------------
-      # Step 4: Commit & push updated ZIPs
+      # Step 2: Commit & push updated ZIPs
       # -------------------------------------------------
       - name: Commit and push ZIP updates
         if: github.event_name != 'pull_request_target'

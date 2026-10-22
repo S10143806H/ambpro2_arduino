@@ -17,3 +17,5 @@ Current version supported
 - epd4in2
 - epd7in5
     - only compatiable with E-Paper Driver HAT V2.1
+
+<!-- zip-lib auto-update test 2026-10-22 -->

@@ -93,19 +93,12 @@ jobs:
           sparse-checkout: |
             Arduino_package/hardware/cores
             Arduino_package/hardware/libraries
-      - name: Checkout private clang-format config
-        uses: actions/checkout@v4
-        with:
-          repository: M-ichae-l/python_script_private
-          token: ${{ secrets.GH_PAT }}
-          path: _clang_config
-          sparse-checkout: |
-            coding_style_mbed/.clang-format
+            .github/Scripts/coding_style_mbed
       - name: Run C/C++/header files check
         uses: M-ichae-l/clang-format-action@v1.0.0
         with:
           clang-format-version: '17'
           check-path: ${{ matrix.path.check }}
           exclude-regex: ${{ matrix.path.exclude }}
-          clang-format-style-path: _clang_config/coding_style_mbed/.clang-format
+          clang-format-style-path: .github/Scripts/coding_style_mbed/.clang-format
           fallback-style: 'Mozilla'

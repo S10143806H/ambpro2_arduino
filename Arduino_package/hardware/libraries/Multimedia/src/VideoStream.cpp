@@ -485,7 +485,7 @@ VideoSetting::VideoSetting(uint8_t preset)
         _h = VIDEO_VGA_HEIGHT;
     }
 
-    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h) ){
+    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h)) {
         _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;
@@ -495,7 +495,7 @@ VideoSetting::VideoSetting(uint8_t preset)
         return;
     }
 
-    if ((_w/_h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
+    if ((_w / _h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
         _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;
@@ -545,7 +545,7 @@ VideoSetting::VideoSetting(uint8_t resolution, uint8_t fps, uint8_t encoder, uin
         _h = VIDEO_D1_HEIGHT;
     }
 
-    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h) ){
+    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h)) {
         _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;
@@ -554,7 +554,7 @@ VideoSetting::VideoSetting(uint8_t resolution, uint8_t fps, uint8_t encoder, uin
         return;
     }
 
-    if ((_w/_h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
+    if ((_w / _h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
         _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;
@@ -589,7 +589,7 @@ VideoSetting::VideoSetting(uint16_t w, uint16_t h, uint8_t fps, uint8_t encoder,
     //     amb_ard_printf(ARD_LOG_INF, "\r\n[INFO] Maximum resolution 1920 x 1080 \n");
     // }
 
-    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h) ){
+    if ((sensor_params[USE_SENSOR].sensor_width > _w) || (sensor_params[USE_SENSOR].sensor_height > _h)) {
         // _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;
@@ -636,10 +636,10 @@ VideoSetting::VideoSetting(uint16_t w, uint16_t h, uint8_t fps, uint8_t encoder,
     //             _h += 16;
     //         }
     //         amb_ard_printf(ARD_LOG_INF, "\r\n[INFO] Custom resolution must be a multiple of 16, new resolution: %d X %d\n", _w, _h);
-     //    }
+    //    }
 
     // Check resolution ratio
-    if ((_w/_h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
+    if ((_w / _h) != ((sensor_params[USE_SENSOR].sensor_width) / (sensor_params[USE_SENSOR].sensor_height))) {
         // _resolution = VIDEO_CUSTOM;
         _w = sensor_params[USE_SENSOR].sensor_width;
         _h = sensor_params[USE_SENSOR].sensor_height;

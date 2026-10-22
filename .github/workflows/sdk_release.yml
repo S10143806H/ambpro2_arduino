@@ -23,16 +23,6 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Checkout private scripts
-        uses: actions/checkout@v4
-        with:
-          repository: M-ichae-l/python_script_private
-          token: ${{ secrets.GH_PAT }}
-          path: private_scripts
-          sparse-checkout: |
-            ameba_arduino_release_notes_maker.py
-            ameba_arduino_release_package_maker.py
-
       - name: Check branch
         run: |
           echo "Current branch (full ref): $GITHUB_REF"
@@ -45,7 +35,7 @@ jobs:
 
       - name: Latest tag
         run: |
-          echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+          echo "LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)" >> $GITHUB_ENV
 
       - name: Zip packages
         run: |
@@ -57,8 +47,8 @@ jobs:
       - name: Execute python script
         run: |
           echo "Performing Early release workflow..."
-          python private_scripts/ameba_arduino_release_package_maker.py ${{ env.REPO_NAME }} E ${{ env.LAST_TAG }} ${{ env.PACKAGE_SHA }} ${{ env.PACKAGE_SIZE }} ${{ env.JSON_LINK_DEV }} ${{ env.RRLEASE_BRANCH_NAME }}
-          python private_scripts/ameba_arduino_release_notes_maker.py E ${{ env.RRLEASE_LOG }} ${{ env.RRLEASE_COMMIT_LOG }} ${{ env.LAST_TAG }}
+          python .github/Scripts/Python/ameba_arduino_release_package_maker.py "${{ env.REPO_NAME }}" E "${{ env.LAST_TAG }}" "${{ env.PACKAGE_SHA }}" "${{ env.PACKAGE_SIZE }}" "${{ env.JSON_LINK_DEV }}" "${{ env.RRLEASE_BRANCH_NAME }}"
+          python .github/Scripts/Python/ameba_arduino_release_notes_maker.py E "${{ env.RRLEASE_LOG }}" "${{ env.RRLEASE_COMMIT_LOG }}" "${{ env.LAST_TAG }}"
         shell: bash
 
       - name: Set commit message
@@ -69,10 +59,6 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - run: rm -rf temp_release_commit_log.txt
-
-      - name: Cleanup private scripts
-        if: always()
-        run: rm -rf private_scripts
 
       - name: Commit to the branch
         uses: stefanzweifel/git-auto-commit-action@v5
